@@ -1,0 +1,216 @@
+
+ 
+<!-- page=0 --><!doctype html>
+<html lang="zh-Hant-TW">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>淨空老法師影音圖文檢索中心 -- Version 2.0422 </title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="js/bootstrap/4.4.1/dist/css/bootstrap.min.css">
+        <!-- fontawesome -->
+        <link rel="stylesheet" href="js/fontawesome-free/5.13.0/css/all.min.css">
+        <!-- jquery-datetimepicker -->
+        <link rel="stylesheet" href="js/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
+        <!-- 
+        <style>
+            header,footer,div {border: 1px solid #111;}
+        </style>
+        -->
+
+        <script type="text/javascript">
+            function SelectAllCheckboxes(action) {
+                //设置变量form的值为name等于select的表单
+                var form = document.getElementById("form1");
+                //取得触发事件的按钮的name属性值
+                //var action=event.srcElement.name;
+                for (var i = 0; i < form.elements.length; i++) {//遍历表单项
+                    //将当前表单项form.elements[i]对象简写为e
+                    var e = form.elements[i];
+                    //如果当前表单项的name属性值为iTo，
+                    //执行下一行代码。限定脚本处理的表单项范围。
+                    if (e.name == "sn[]") {
+                        /*如果单击事件发生在name为selectall的按钮上，就将当前表单项的checked属性设为true(即选中)，否则设置为当前设置的相反值(反选)*/
+                        e.checked = (action == "selectall") ? (form.selectall.checked) : (!e.checked);
+                    }
+                }
+            }
+            function doPostUrl(actionUrl) {
+                document.form1.action = actionUrl;
+                document.form1.submit();
+            }
+            function doPostUrl(actionUrl, page) {
+                document.form1.action = actionUrl;
+                document.form1.page.value = page;
+                document.form1.submit();
+            }
+            function doPostPage(page) {
+                document.form1.page.value = page;
+                document.form1.action = '';
+                document.form1.submit();
+            }
+            function doUpdateRecord(actioncmd, pmid) {
+                document.form1.actioncmd.value = actioncmd;
+                document.form1.pmid.value = pmid;
+                //document.form1.action = '';
+                document.form1.submit();
+            }
+            function p_del() {
+                var msg = "您確定要刪除勾選之編號？";
+                if (confirm(msg) == true) {
+                    document.form1.actioncmd.value = 'delete';
+                    document.form1.submit();
+                    // return true;
+                } else {
+                    return false;
+                }
+            }
+            //Wait on press enter
+            function editKeyHandler(event)
+            {
+                var charCode = (navigator.appName == "Netscape") ? event.which : event.keyCode;
+                if (charCode != 13)
+                    return true;
+                doPostUrl('');
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="container">
+            <form action="" method="post" name="form1" id="form1">
+                                    <div class="form-row justify-content-center align-items-center">
+                        <div class="col-12 col-md-9 col-lg-7 col-xl-6 text-center">
+                            <a href="/"><img src="./images/sp_page.jpg" alt="amtbcollege logo" class="img-fluid" /></a>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center align-items-center w-100">
+                        &nbsp;
+                    </div>
+                    <div class="form-row justify-content-center align-items-center">
+                        <div class="col-auto">
+                            <select name="srange" id="srange" style="background-color:#FFFFC0;">
+                                <option value="content" selected='selected'>內文</option>
+                                <option value="title">標題</option>
+                                <option value="ji">講義</option>
+                                <option value="mo">墨寶</option>
+                                <option value="mo-21">印章</option>
+                                <!--<option value="img">照片</option> -->
+                                <option value="sn">編號</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input name="query" type="text" id="query" value="" title="AND Logic請用空白格開 ^_^" onkeypress="return editKeyHandler(event)" />
+                            <input type="button" name="searchButton" id="searchButton" accesskey="S" title="ALT+S可以直接執行搜索" value="搜尋" />
+                            <input name='hiddenField' type='hidden' id='hiddenField' value='' />
+                        </div>
+                        <div class="col-auto">
+                            <a href="./index_as.php"><small>進階搜尋</small></a>
+                            <a href="./support/"><small><i class="far fa-question-circle"></i><!-- 查尋說明</small> --></a>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center align-items-center">
+                        <div class="col-auto">
+                            <span id="ctl00_RBL" style="color:#404040">
+                                <input id="lang_cn" type="radio" name="lang" value="zh_CN" /> 简体
+                                <input id="lang_tw" type="radio" name="lang" value="zh_TW" checked='checked' /> 正體
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span style="color:DarkGreen;font-weight:normal;"><input name="isTitleMode" type="checkbox" id="isTitleMode" value="1"  />綱目模式</span>
+                        </div>
+                        <div class="col-auto">
+                            <span style="color:DarkViolet;"><input name="FrequencySearch" type="checkbox" id="FrequencySearch" value="1" />頻次搜索</span>&nbsp;
+                        </div>
+                        <div class="col-auto">
+                            <span id="ctl00_RB_Logic" title="空白區隔代表 AND / OR 關鍵字搜索邏輯 （預設為AND）">
+                                <input type="radio" name="logic" id="logic_0" value="AND" checked='checked' /> <small>AND</small>       
+                                <input type="radio" name="logic" id="logic_1" value="OR" /> <small>OR</small>         
+                        </div>
+                        <div class="w-100">&nbsp;</div>
+                    </div>
+                                        <div class="row justify-content-center">
+                        <div class="col-auto" style="font-size:1.125rem; max-width: 60%;">
+                            <br /><br /><br />
+                            <span style="line-height: 1.2; font-family: 新細明體">
+                                <font color="#2f8dbb"><span style="font-family: 新細明體">【聲明啟事】</span></font><br />
+                                <!--淨空老法師所有一切講演著述之文字，暨四眾同修打字、校對、整理，公開授權大眾流通及下載閱讀。不得擅自加註版權所有，任意增減內容，非法牟利，侵害公眾權益及原著本意。若欲出版某書籍，請自電子書坊下載，或來信詢問最新版本。
+                                -->淨空老法師及本系統中所有講師的一切講演著述之文字、圖片、卡片、墨寶、影音、書籍等，暨四眾同修打字、校對、整理、製作，公開授權大眾流通，亦可下載學習。不得擅自加註版權所有，任意增加、刪減、重製內容，非法牟利，侵害公眾權益，及原著本意。
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <p style="line-height:1.5; text-align:center">
+                                <br /><br /><br /><br />
+                                <font color="#666666" size="2">
+                                Copyright &copy; 2006 - 2020. For Free Distribution.<br />
+                                <span style="font-family: 新細明體">本系統由中華華藏淨宗學會開發建置，歡迎大家使用。<a href='/login/index.php'><i class="fas fa-sign-in-alt"></i></a></span></font>
+                                <font color="#666666" size="2"><span style="font-family: 新細明體"><br />
+                                    <a href="http://www.amtb.tw/section2/qa.htm?web_index=2&amp;web_sub_index=10" target="_blank"></a> 問題反饋：</span><a href="mailto:amtb@amtb.tw"><span style="text-decoration: underline; font-family: 新細明體;">amtb@amtb.tw</span></a>
+                                <!-- &nbsp;<a href="http://www.amtb.tw/section2/qa.htm?web_index=2&amp;web_sub_index=10" target="_blank"><span style="text-decoration: underline; font-family: Dotum;">Q&amp;A詢問台</span></a>-->
+                                </font>
+                            </p>
+                        </div>
+                    </div>
+                            </form>
+        </div>
+                    <footer class="container">
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <a href="http://www.amtb.tw" target="_blank"><img src="images/amtb-tw.png" alt="淨空老法師專集網站" width="150" /></a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="https://www.hwadzan.com" target="_blank"><img src="images/hwadzan.png" alt="華藏淨宗學會" width="150" /></a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="https://www.amtbcollege.org" target="_blank"><img src="images/amtbcollege.png" alt="佛陀教育網路學院" width="150" /></a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="https://rsd.amtb.tw" target="_blank"><img src="images/amtb-tw-rsd.png" alt="儒釋道多元文化教育網" width="150" /></a>
+                        <!-- <a href="http://study.amtb.tw/" target="_blank"><img border="0" height="36" src="images/childcollege.JPG" alt="弟子規讀書會" width="135" /></a> -->
+                    </div>
+                    <div class="w-100">&nbsp;</div>
+                </div>
+            </footer>
+        
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="js/jquery/3.4.1/jquery.min.js"></script>
+        <script src="js/bootstrap/4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- jquery-datetimepicker -->
+        <script src="js/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
+        <script type="text/javascript">
+                                                    $(function () {
+                                                        $("#searchButton").click(function () {
+                                                            document.form1.action = '';
+                                                            document.form1.submit();
+                                                        });
+                                                        $("#zipdownloadbutton").click(function () {
+                                                            document.form1.action = 'zipdownload.php';
+                                                            document.form1.submit();
+                                                        });
+                                                        $.datetimepicker.setLocale('zh-TW');
+                                                        $("#uploadaudiodatestart,#uploadaudiodate,#writedatestart,#writedate,#verifyfirstdatestart,#verifyfirstdate,#verifyseconddatestart,#verifyseconddate,#verifythirddatestart,#verifythirddate,#notverifydatestart,#notverifydate,#terminatedatestart,#terminatedate,#captiondatestart,#captiondate,#fileinspectiondatestart,#fileinspectiondate,#publishdatestart,#publishdate").datetimepicker({
+                                                            format: 'Y-m-d H:i:s',
+                                                            step: 5
+                                                        });
+                                                    });
+
+        </script>
+
+                <script type="text/javascript"> 
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-12259553-1");
+pageTracker._setDomainName(".hwadzan.com");
+pageTracker._trackPageview();
+} catch(err) {}</script>            </body>
+</html>

@@ -1,0 +1,608 @@
+
+ 
+<!-- page=0 --><!doctype html>
+<html lang="zh-Hant-TW">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>01-003 - 淨空老法師影音圖文檢索中心 -- Version 2.0422 </title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="js/bootstrap/4.4.1/dist/css/bootstrap.min.css">
+        <!-- fontawesome -->
+        <link rel="stylesheet" href="js/fontawesome-free/5.13.0/css/all.min.css">
+        <!-- jquery-datetimepicker -->
+        <link rel="stylesheet" href="js/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
+        <!-- 
+        <style>
+            header,footer,div {border: 1px solid #111;}
+        </style>
+        -->
+
+        <script type="text/javascript">
+            function SelectAllCheckboxes(action) {
+                //设置变量form的值为name等于select的表单
+                var form = document.getElementById("form1");
+                //取得触发事件的按钮的name属性值
+                //var action=event.srcElement.name;
+                for (var i = 0; i < form.elements.length; i++) {//遍历表单项
+                    //将当前表单项form.elements[i]对象简写为e
+                    var e = form.elements[i];
+                    //如果当前表单项的name属性值为iTo，
+                    //执行下一行代码。限定脚本处理的表单项范围。
+                    if (e.name == "sn[]") {
+                        /*如果单击事件发生在name为selectall的按钮上，就将当前表单项的checked属性设为true(即选中)，否则设置为当前设置的相反值(反选)*/
+                        e.checked = (action == "selectall") ? (form.selectall.checked) : (!e.checked);
+                    }
+                }
+            }
+            function doPostUrl(actionUrl) {
+                document.form1.action = actionUrl;
+                document.form1.submit();
+            }
+            function doPostUrl(actionUrl, page) {
+                document.form1.action = actionUrl;
+                document.form1.page.value = page;
+                document.form1.submit();
+            }
+            function doPostPage(page) {
+                document.form1.page.value = page;
+                document.form1.action = '';
+                document.form1.submit();
+            }
+            function doUpdateRecord(actioncmd, pmid) {
+                document.form1.actioncmd.value = actioncmd;
+                document.form1.pmid.value = pmid;
+                //document.form1.action = '';
+                document.form1.submit();
+            }
+            function p_del() {
+                var msg = "您確定要刪除勾選之編號？";
+                if (confirm(msg) == true) {
+                    document.form1.actioncmd.value = 'delete';
+                    document.form1.submit();
+                    // return true;
+                } else {
+                    return false;
+                }
+            }
+            //Wait on press enter
+            function editKeyHandler(event)
+            {
+                var charCode = (navigator.appName == "Netscape") ? event.which : event.keyCode;
+                if (charCode != 13)
+                    return true;
+                doPostUrl('');
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="container">
+            <form action="" method="post" name="form1" id="form1">
+                                    <div class="form-row justify-content-center align-items-center">
+                        <div class="col-12 col-md-9 col-lg-7 col-xl-6 text-center">
+                            <a href="/"><img src="./images/sp_page_small.jpg" alt="amtbcollege logo" class="img-fluid" /></a>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center align-items-center w-100">
+                        &nbsp;
+                    </div>
+                    <div class="form-row justify-content-center align-items-center">
+                        <div class="col-auto">
+                            <select name="srange" id="srange" style="background-color:#FFFFC0;">
+                                <option value="content">內文</option>
+                                <option value="title">標題</option>
+                                <option value="ji">講義</option>
+                                <option value="mo">墨寶</option>
+                                <option value="mo-21">印章</option>
+                                <!--<option value="img">照片</option> -->
+                                <option value="sn" selected='selected'>編號</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input name="query" type="text" id="query" value="01-003" title="AND Logic請用空白格開 ^_^" onkeypress="return editKeyHandler(event)" />
+                            <input type="button" name="searchButton" id="searchButton" accesskey="S" title="ALT+S可以直接執行搜索" value="搜尋" />
+                            <input name='hiddenField' type='hidden' id='hiddenField' value='01-003' />
+                        </div>
+                        <div class="col-auto">
+                            <a href="./index_as.php"><small>進階搜尋</small></a>
+                            <a href="./support/"><small><i class="far fa-question-circle"></i><!-- 查尋說明</small> --></a>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center align-items-center">
+                        <div class="col-auto">
+                            <span id="ctl00_RBL" style="color:#404040">
+                                <input id="lang_cn" type="radio" name="lang" value="zh_CN" /> 简体
+                                <input id="lang_tw" type="radio" name="lang" value="zh_TW" checked='checked' /> 正體
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span style="color:DarkGreen;font-weight:normal;"><input name="isTitleMode" type="checkbox" id="isTitleMode" value="1"  />綱目模式</span>
+                        </div>
+                        <div class="col-auto">
+                            <span style="color:DarkViolet;"><input name="FrequencySearch" type="checkbox" id="FrequencySearch" value="1" />頻次搜索</span>&nbsp;
+                        </div>
+                        <div class="col-auto">
+                            <span id="ctl00_RB_Logic" title="空白區隔代表 AND / OR 關鍵字搜索邏輯 （預設為AND）">
+                                <input type="radio" name="logic" id="logic_0" value="AND" checked='checked' /> <small>AND</small>       
+                                <input type="radio" name="logic" id="logic_1" value="OR" /> <small>OR</small>         
+                        </div>
+                        <div class="w-100">&nbsp;</div>
+                    </div>
+                                            <div class="row justify-content-center align-items-center">
+                            <div class="col-12 col-lg-10 col-xl-9">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-auto">
+                                        &nbsp;<input name="selectall" type="checkbox" id="selectall" value="ALL" onclick="javascript:SelectAllCheckboxes('selectall')" data-toggle="tooltip" title="全選" />&nbsp;<span style="color:#C00000;font-family:Dotum;font-size:0.75rem;">全選</span>&nbsp;&nbsp;
+                                        <select name="limit" id="limit"  style="font-size:0.75rem;" onchange="javascript:doPostUrl('', '0');">
+                                                                            <option value='10' selected='selected'>10</option>                                <option value='20'>20</option>                                <option value='30'>30</option>                                <option value='40'>40</option>                                <option value='50'>50</option>                                <option value='60'>60</option>                                <option value='70'>70</option>                                <option value='80'>80</option>                                <option value='90'>90</option>                                <option value='100'>100</option>                                <option value='110'>110</option>                                <option value='120'>120</option>                                <option value='130'>130</option>                                <option value='140'>140</option>                                <option value='150'>150</option>                                <option value='160'>160</option>                                <option value='170'>170</option>                                <option value='180'>180</option>                                <option value='190'>190</option>                                <option value='200'>200</option>                                <option value='210'>210</option>                                <option value='220'>220</option>                                <option value='230'>230</option>                                <option value='240'>240</option>                                <option value='250'>250</option>                                <option value='260'>260</option>                                <option value='270'>270</option>                                <option value='280'>280</option>                                <option value='290'>290</option>                                <option value='300'>300</option>                                <option value='310'>310</option>                                <option value='320'>320</option>                                <option value='330'>330</option>                                <option value='340'>340</option>                                <option value='350'>350</option>                                <option value='360'>360</option>                                        </select>
+                                        <span id="ctl00_CH_C_Label_ServerCostTime" style="color:#C00000;font-family:Dotum;font-size:0.75rem;">筆/頁，共發現 <strong>354</strong> 筆資料<!-- ，伺服器花費: 1.055 秒 --></span>
+                                    </div>
+                                    <div class="col-auto">
+                                                                                    <span id="ctl00_CH_C_GV_ctl01_CBL_DTYPE" style="font-family:Dotum;font-weight:normal;font-size:0.75rem;">
+                                                                                                        <label>
+                                                            <input name="docstype[]" type="checkbox" id="docstype_2" value="pdf" checked='checked' />
+                                                            PDF</label>
+                                                                                                            <label>
+                                                        <input name="docstype[]" type="checkbox" id="docstype_3" value="doc" />
+                                                        DOC</label>
+                                                                                                        <label>
+                                                        <input name="docstype[]" type="checkbox" id="docstype_1" value="txt" />
+                                                        TXT</label>
+                                                    <!-- 
+                                                                                                                                                                                                                            <label>
+                                                                                                                                                                                                                            <input name="docstype[]" type="checkbox" id="docstype_100" value="big5gb" />
+                                                                                                                                                                                                                            MIX</label> -->
+                                                                                                        <label>
+                                                    <input name="docstype[]" type="checkbox" id="docstype_9"  value="jpg" checked='checked' />
+                                                    JPG</label>
+                                                                                            </span> 
+                                            <input type="button" name="zipdownloadbutton" id="zipdownloadbutton" class="btn btn-secondary btn-sm" value="下載" />
+                                                                                                                        </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+                                                    <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0001" value="01-003-0001" />
+                                            <a href='dv.php?sn=01-003-0001&amp;lang=zh_TW' target='_self'>01-003-0001&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0001.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0001.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0001.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0001.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem; background-color: #fafafa">
+                                        <p>阿彌陀經疏鈔演義　　（第一集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0001</p>
+<p>　　諸位同修，今天是我們《彌陀經疏鈔演義》第三次的宣講。圖書館從今天起正式啟建蓮池海會。《疏鈔》我們曾經講過兩遍，讀得當然是更多，我們對於蓮池大師他老人家 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0002" value="01-003-0002" />
+                                            <a href='dv.php?sn=01-003-0002&amp;lang=zh_TW' target='_self'>01-003-0002&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0002.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0002.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0002.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0002.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem;">
+                                        <p>阿彌陀經疏鈔演義　　（第二集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0002</p>
+<p>　　解釋經題，上一回講到「佛說」兩個字，今天我們從「阿彌陀」開始：</p>
+<p>　　演【阿彌陀，是梵語，此云無量，以功德智慧身相光明一切皆悉無量故。是無量佛往昔因中，為 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0003" value="01-003-0003" />
+                                            <a href='dv.php?sn=01-003-0003&amp;lang=zh_TW' target='_self'>01-003-0003&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0003.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0003.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0003.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0003.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem; background-color: #fafafa">
+                                        <p>阿彌陀經疏鈔演義　　（第三集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0003</p>
+<p>　　請掀開經本下冊，我們現在看人題：</p>
+<p>　　演【明古杭雲棲寺沙門袾宏述】</p>
+<p>　　這是作《疏鈔》的人。蓮池大師寫《疏鈔》，他原本這個題上面是「後學古杭雲棲寺」的字樣 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0004" value="01-003-0004" />
+                                            <a href='dv.php?sn=01-003-0004&amp;lang=zh_TW' target='_self'>01-003-0004&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0004.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0004.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0004.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0004.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem;">
+                                        <p>阿彌陀經疏鈔演義　　（第四集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0004</p>
+<p>　　上冊第一頁第三行，會本第三頁倒數第二行：</p>
+<p>　　疏【此經疏鈔，大文分三：初通序大意，二開章釋文，三結釋咒意。為順諸經序、正、流通三分，亦順淨業信行願故。】 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0005" value="01-003-0005" />
+                                            <a href='dv.php?sn=01-003-0005&amp;lang=zh_TW' target='_self'>01-003-0005&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0005.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0005.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0005.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0005.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem; background-color: #fafafa">
+                                        <p>阿彌陀經疏鈔演義　　（第五集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0005</p>
+<p>　　請看《阿彌陀經疏鈔演義會本》，第五頁第三行：</p>
+<p>　　演【淨業者，業居苦之先，煩惱之後。十法界不同，皆由所作之業不同。古云，假使百千劫，所作業不亡。又云，佛 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0006" value="01-003-0006" />
+                                            <a href='dv.php?sn=01-003-0006&amp;lang=zh_TW' target='_self'>01-003-0006&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0006.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0006.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0006.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0006.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem;">
+                                        <p>阿彌陀經疏鈔演義　　（第六集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0006</p>
+<p>　　請看《阿彌陀經疏鈔演義會本》，第五頁第十行：</p>
+<p>　　演【初明性者，性即常住真心，全體是極樂世界阿彌陀佛。初明者，恐人認阿彌陀佛在自性之外。故古云：若認他是 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0007" value="01-003-0007" />
+                                            <a href='dv.php?sn=01-003-0007&amp;lang=zh_TW' target='_self'>01-003-0007&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0007.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0007.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0007.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0007.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem; background-color: #fafafa">
+                                        <p>阿彌陀經疏鈔演義　　（第七集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0007</p>
+<p>　　請看《阿彌陀經疏鈔演義會本》，第六頁：</p>
+<p>　　【初明性】</p>
+<p>　　這是個科題，是個題目。下面是序文，第一段是明性。</p>
+<p>　　序【靈明洞徹，湛寂常恆，非濁非清，無背無向 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0008" value="01-003-0008" />
+                                            <a href='dv.php?sn=01-003-0008&amp;lang=zh_TW' target='_self'>01-003-0008&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0008.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0008.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0008.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0008.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem;">
+                                        <p>阿彌陀經疏鈔演義　　（第八集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0008</p>
+<p>　　請看《阿彌陀經疏鈔演義會本》，第七頁：</p>
+<p>　　疏【今初明性，此經蓋全彰自性，又諸經皆不離自性，故首標也。】</p>
+<p>　　演【此經以自性為宗者，自性謂眾生性德之佛，非 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0009" value="01-003-0009" />
+                                            <a href='dv.php?sn=01-003-0009&amp;lang=zh_TW' target='_self'>01-003-0009&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0009.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0009.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0009.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0009.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem; background-color: #fafafa">
+                                        <p>阿彌陀經疏鈔演義　　（第九集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0009</p>
+<p>　　請看《阿彌陀經疏鈔演義會本》，第八頁：</p>
+<p>　　疏【徹者通也，洞者徹之極也。日月雖遍，不照覆盆，是徹而未徹。今此靈明，輝天地，透金石，四維上下，曾無障礙，蓋 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                        <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <h5>
+                                                                                    &nbsp;<input name="sn[]" type="checkbox" id="checkbox_01-003-0010" value="01-003-0010" />
+                                            <a href='dv.php?sn=01-003-0010&amp;lang=zh_TW' target='_self'>01-003-0010&nbsp;<strong>阿彌陀經疏鈔演義</strong></a>                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-auto">
+                                            <!--
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=txt&amp;lang=zh_TW' data-toggle="tooltip" title="純文字檔下載"><img src='./images/txt.gif' alt='純文字下載' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=doc&amp;lang=zh_TW' data-toggle="tooltip" title="doc檔案下載"><img src='./images/doc.gif' alt='下載三校之 Word *.doc檔案' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=xml&amp;lang=zh_TW' data-toggle="tooltip" title="WordML檔案下載"><img src='./images/xml.gif' alt='直接下載WordML' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=big5gb&amp;lang=zh_TW' data-toggle="tooltip" title="純文字正簡體對照檔下載"><img src='./images/b5g.gif' alt='純文字下載[正簡體對照】' /></a>
+                                            <a href='ft.php?sn=WD20-037-0001&amp;docstype=pdf&amp;lang=zh_TW' data-toggle="tooltip" title="PDF檔案下載"><img src='./images/pdf.gif' alt='下載三校之PDF檔案' /></a>&nbsp;
+                                            <a href='zipdownload.php?sn=JI02-040-0001%2CJI02-040-0002&amp;docstype=xml,txt,big5gb,doc,pdf,jpg&amp;ziptype=itemid&amp;lang=zh_TW' data-toggle="tooltip" title="講義下載"><i class="fas fa-file-download fa-lg"></i></a>&nbsp;
+                                            <a href="physciamedia/physcialmediamanagement.php?sn=WD20-037"><img src="images/pm.gif"></a> -->
+                                        </div>
+                                        <div class="col-auto">
+                                            &nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0010.mp3&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP3點播'><i class='fas fa-volume-up fa-lg'></i><!-- <img src='images/m.gif' width='23'   height='25' border='0' alt='play mp3' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp3/01/01-003/01-003-0010.mp3' target='_blank' data-toggle='tooltip' title='MP3下載'><i class='fas fa-file-audio fa-lg'></i><!-- <img src='images/dl.gif' width='23' height='25' border='0' alt='download mp3' /> --></a>&nbsp;&nbsp;<a href='https://player.amtb.de/jw6/player.php?file=https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0010.mp4&amp;autoplay=false' target='_blank' data-toggle='tooltip' title='MP4點播'><i class='fas fa-video fa-lg'></i><!-- <img src='images/v.gif' width='23'   height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;<a href='https://vod.amtb.de/redirect/media/mp4/01/01-003/01-003-0010.mp4' target='_blank' data-toggle='tooltip' title='MP4下載'><i class='fas fa-file-video fa-lg'></i><!-- <img src='images/v.gif' width='23' height='25' border='0' alt='play mp4' /> --></a>&nbsp;&nbsp;                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-lg-10 col-xl-9">
+                                    <article style="font-size:1.125rem;">
+                                        <p>阿彌陀經疏鈔演義　　（第十集）　　1984/12　　台灣景美華藏圖書館　　檔名：<span style='font-weight:bold;color:#ff0000'>01-003</span>-0010</p>
+<p>　　請看《阿彌陀經疏鈔演義會本》，第十頁：</p>
+<p>　　疏【舉清濁向背，意該善惡聖凡有無生滅增減一異等。】</p>
+<p>　　演【意該善惡凡聖等者，孟子道性善，天台說性惡，一則就事 ……</p>                                    </article>
+                                </div>
+                            </div>
+
+                                                                            <div class="form-row justify-content-center"><input type='hidden' name='page' id='page' value='0' /><input type='hidden' name='actioncmd' id='actioncmd' value='' /><input type='hidden' name='pmid'   id='pmid' value='' />
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination pagination-sm">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="javascript:doPostPage('-1')" aria-label="Previous" aria-disabled='true'>
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                                                                        <li class="page-item active" aria-current="page"><span class="page-link">1<span class="sr-only">(current)</span></span></li>
+                                                                                            <li class="page-item"><a class="page-link" href="javascript:doPostPage('1')">2</a></li>
+                                                                                                <li class="page-item"><a class="page-link" href="javascript:doPostPage('2')">3</a></li>
+                                                                                                <li class="page-item"><a class="page-link" href="javascript:doPostPage('3')">4</a></li>
+                                                                                                <li class="page-item"><a class="page-link" href="javascript:doPostPage('4')">5</a></li>
+                                                                                                <li class="page-item"><a class="page-link" href="javascript:doPostPage('5')">6</a></li>
+                                                                                                <li class="page-item"><a class="page-link" href="javascript:doPostPage('6')">7</a></li>
+                                                                                                <li class="page-item"><a class="page-link" href="javascript:doPostPage('7')">8</a></li>
+                                                                                                <li class="page-item"><a class="page-link" href="javascript:doPostPage('8')">9</a></li>
+                                                                                            <li class="page-item"><a class="page-link" href="javascript:doPostPage('9')">...</a></li>
+                                                                                        <li class="page-item">
+                                                <a class="page-link" href="javascript:doPostPage('1')" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                                                            </ul>
+                                </nav>
+                                                    </div>
+
+                        
+                                    </form>
+        </div>
+                    <footer class="container">
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <a href="http://www.amtb.tw" target="_blank"><img src="images/amtb-tw.png" alt="淨空老法師專集網站" width="150" /></a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="https://www.hwadzan.com" target="_blank"><img src="images/hwadzan.png" alt="華藏淨宗學會" width="150" /></a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="https://www.amtbcollege.org" target="_blank"><img src="images/amtbcollege.png" alt="佛陀教育網路學院" width="150" /></a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="https://rsd.amtb.tw" target="_blank"><img src="images/amtb-tw-rsd.png" alt="儒釋道多元文化教育網" width="150" /></a>
+                        <!-- <a href="http://study.amtb.tw/" target="_blank"><img border="0" height="36" src="images/childcollege.JPG" alt="弟子規讀書會" width="135" /></a> -->
+                    </div>
+                    <div class="w-100">&nbsp;</div>
+                </div>
+            </footer>
+        
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="js/jquery/3.4.1/jquery.min.js"></script>
+        <script src="js/bootstrap/4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- jquery-datetimepicker -->
+        <script src="js/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
+        <script type="text/javascript">
+                                                    $(function () {
+                                                        $("#searchButton").click(function () {
+                                                            document.form1.action = '';
+                                                            document.form1.submit();
+                                                        });
+                                                        $("#zipdownloadbutton").click(function () {
+                                                            document.form1.action = 'zipdownload.php';
+                                                            document.form1.submit();
+                                                        });
+                                                        $.datetimepicker.setLocale('zh-TW');
+                                                        $("#uploadaudiodatestart,#uploadaudiodate,#writedatestart,#writedate,#verifyfirstdatestart,#verifyfirstdate,#verifyseconddatestart,#verifyseconddate,#verifythirddatestart,#verifythirddate,#notverifydatestart,#notverifydate,#terminatedatestart,#terminatedate,#captiondatestart,#captiondate,#fileinspectiondatestart,#fileinspectiondate,#publishdatestart,#publishdate").datetimepicker({
+                                                            format: 'Y-m-d H:i:s',
+                                                            step: 5
+                                                        });
+                                                    });
+
+        </script>
+
+                <script type="text/javascript"> 
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-12259553-1");
+pageTracker._setDomainName(".hwadzan.com");
+pageTracker._trackPageview();
+} catch(err) {}</script>            </body>
+</html>
